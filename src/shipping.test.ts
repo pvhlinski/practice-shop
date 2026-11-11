@@ -7,6 +7,10 @@ describe("shipping", () => {
     expect(shippingFor("PL", 4999)).toBe(699);
   });
 
+  it("is free at exactly the free-shipping amount", () => {
+    expect(shippingFor("DE", 5000)).toBe(0);
+  });
+
   it("is free for bigger orders", () => {
     expect(shippingFor("FR", 6000)).toBe(0);
   });
