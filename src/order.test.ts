@@ -15,6 +15,12 @@ describe("computeOrder", () => {
     });
   });
 
+  it("ships an order of exactly 50.00 for free", () => {
+    const order = computeOrder(addItem([], "novel", 4), "DE");
+    expect(order.shipping).toBe(0);
+    expect(order.total).toBe(5950);
+  });
+
   it("applies a coupon", () => {
     const order = computeOrder(addItem([], "kettle"), "DE", "save10");
     expect(order.couponCode).toBe("SAVE10");
