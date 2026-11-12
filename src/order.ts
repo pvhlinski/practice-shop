@@ -27,7 +27,7 @@ export function computeOrder(cart: Cart, country: Country, couponCode?: string):
   const discount = coupon === undefined ? 0 : discountFor(cart, coupon);
   const afterDiscount = sub - discount;
   const shipping = shippingFor(country, afterDiscount);
-  const vat = vatFor(country, sub);
+  const vat = vatFor(country, afterDiscount);
   return {
     country,
     subtotal: sub,

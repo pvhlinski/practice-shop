@@ -21,6 +21,12 @@ describe("computeOrder", () => {
     expect(order.discount).toBe(400);
   });
 
+  it("charges VAT on the goods after the discount", () => {
+    const order = computeOrder(addItem([], "atlas"), "DE", "BOOKS20");
+    expect(order.vat).toBe(684);
+    expect(order.total).toBe(4783);
+  });
+
   it("refuses an empty cart and an unknown coupon", () => {
     expect(() => computeOrder([], "DE")).toThrow(OrderError);
     expect(() => computeOrder(addItem([], "mug"), "DE", "FREE100")).toThrow(OrderError);
