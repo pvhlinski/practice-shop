@@ -14,6 +14,11 @@ interface QuoteRequest {
   coupon?: string;
 }
 
+/** The line printed once the shop listens on `port`. */
+export function startMessage(port: number): string {
+  return `practice shop on http://localhost:${port}`;
+}
+
 /** GET /health, and POST /quote with {"items":[{"id":"mug","quantity":2}],"country":"DE","coupon":"SAVE10"}. */
 export function createShopServer(): Server {
   return createServer((req, res) => {
