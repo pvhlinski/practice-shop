@@ -1,6 +1,16 @@
 import type { AddressInfo } from "node:net";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { createShopServer } from "./server.ts";
+import { createShopServer, startMessage } from "./server.ts";
+
+describe("start message", () => {
+  it("names the port set by PORT", () => {
+    expect(startMessage(8080)).toBe("practice shop on http://localhost:8080");
+  });
+
+  it("names the default port 3000", () => {
+    expect(startMessage(3000)).toBe("practice shop on http://localhost:3000");
+  });
+});
 
 const server = createShopServer();
 let base = "";
