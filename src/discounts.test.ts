@@ -23,6 +23,16 @@ describe("coupons", () => {
     expect(discountFor(cart, coupon("BOOKS20"))).toBe(250);
   });
 
+  it("percent coupons apply to the whole line, not one unit", () => {
+    expect(discountFor(addItem([], "mug", 3), coupon("SAVE10"))).toBe(450);
+    expect(discountFor(addItem([], "novel", 2), coupon("BOOKS20"))).toBe(500);
+  });
+
+  it("BOOKS20 discounts only the books in a mixed cart", () => {
+    const cart = addItem(addItem([], "mug", 3), "novel", 2);
+    expect(discountFor(cart, coupon("BOOKS20"))).toBe(500);
+  });
+
   it("FIVEOFF needs 30.00 in the cart", () => {
     expect(discountFor(addItem([], "mug"), coupon("FIVEOFF"))).toBe(0);
     expect(discountFor(addItem([], "kettle"), coupon("FIVEOFF"))).toBe(500);
