@@ -13,4 +13,11 @@ describe("renderReceipt", () => {
     expect(text).toMatch(/VAT 20% on 30\.00\s+6\.00/);
     expect(text).toMatch(/Total\s+41\.99/);
   });
+
+  it("shows VAT on the goods after the discount", () => {
+    const cart = addItem([], "atlas");
+    const text = renderReceipt(cart, computeOrder(cart, "DE", "BOOKS20"));
+    expect(text).toMatch(/VAT 19% on 36\.00\s+6\.84/);
+    expect(text).toMatch(/Total\s+47\.83/);
+  });
 });
