@@ -21,6 +21,30 @@ describe("computeOrder", () => {
     expect(order.discount).toBe(400);
   });
 
+  it("charges VAT on the goods after the discount", () => {
+    expect(computeOrder(addItem([], "atlas"), "DE", "BOOKS20")).toEqual({
+      country: "DE",
+      subtotal: 4500,
+      couponCode: "BOOKS20",
+      discount: 900,
+      shipping: 499,
+      vat: 684,
+      total: 4783,
+    });
+  });
+
+  it("charges VAT on the full price without a coupon", () => {
+    expect(computeOrder(addItem([], "atlas"), "DE")).toEqual({
+      country: "DE",
+      subtotal: 4500,
+      couponCode: null,
+      discount: 0,
+      shipping: 499,
+      vat: 855,
+      total: 5854,
+    });
+  });
+
   it("refuses an empty cart and an unknown coupon", () => {
     expect(() => computeOrder([], "DE")).toThrow(OrderError);
     expect(() => computeOrder(addItem([], "mug"), "DE", "FREE100")).toThrow(OrderError);
