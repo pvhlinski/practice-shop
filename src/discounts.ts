@@ -1,4 +1,4 @@
-import { subtotal, type Cart } from "./cart.ts";
+import { lineTotal, subtotal, type Cart } from "./cart.ts";
 import type { Category } from "./catalog.ts";
 import { percentOf, type Cents } from "./money.ts";
 
@@ -27,7 +27,7 @@ export function discountFor(cart: Cart, coupon: Coupon): Cents {
   let discount = 0;
   for (const line of cart) {
     if (coupon.category !== undefined && line.product.category !== coupon.category) continue;
-    discount += percentOf(line.product.price, coupon.percent);
+    discount += percentOf(lineTotal(line), coupon.percent);
   }
   return discount;
 }
