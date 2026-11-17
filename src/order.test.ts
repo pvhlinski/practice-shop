@@ -45,6 +45,19 @@ describe("computeOrder", () => {
     });
   });
 
+  it("ships an order of exactly 50.00 for free", () => {
+    const cart = addItem(addItem(addItem(addItem([], "novel"), "novel"), "novel"), "novel");
+    expect(computeOrder(cart, "DE")).toEqual({
+      country: "DE",
+      subtotal: 5000,
+      couponCode: null,
+      discount: 0,
+      shipping: 0,
+      vat: 950,
+      total: 5950,
+    });
+  });
+
   it("refuses an empty cart and an unknown coupon", () => {
     expect(() => computeOrder([], "DE")).toThrow(OrderError);
     expect(() => computeOrder(addItem([], "mug"), "DE", "FREE100")).toThrow(OrderError);
