@@ -18,9 +18,18 @@ describe("coupons", () => {
     expect(discountFor(addItem([], "kettle"), coupon("SAVE10"))).toBe(400);
   });
 
+  it("SAVE10 takes 10% off the whole line when the quantity is more than one", () => {
+    expect(discountFor(addItem([], "mug", 3), coupon("SAVE10"))).toBe(450);
+  });
+
   it("BOOKS20 takes 20% off books only", () => {
     const cart = addItem(addItem([], "novel"), "mug");
     expect(discountFor(cart, coupon("BOOKS20"))).toBe(250);
+  });
+
+  it("BOOKS20 takes 20% off the whole line when there are several books", () => {
+    const cart = addItem(addItem([], "novel", 3), "mug", 2);
+    expect(discountFor(cart, coupon("BOOKS20"))).toBe(750);
   });
 
   it("FIVEOFF needs 30.00 in the cart", () => {
