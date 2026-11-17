@@ -1,6 +1,6 @@
 import type { AddressInfo } from "node:net";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
-import { createShopServer } from "./server.ts";
+import { createShopServer, startMessage } from "./server.ts";
 
 const server = createShopServer();
 let base = "";
@@ -17,6 +17,13 @@ afterAll(async () => {
 function quote(body: string): Promise<Response> {
   return fetch(`${base}/quote`, { method: "POST", body, headers: { "content-type": "application/json" } });
 }
+
+describe("start message", () => {
+  it("names the port the shop listens on", () => {
+    expect(startMessage(8080)).toBe("practice shop on http://localhost:8080");
+    expect(startMessage(3000)).toBe("practice shop on http://localhost:3000");
+  });
+});
 
 describe("HTTP API", () => {
   it("answers /health", async () => {
