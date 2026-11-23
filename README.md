@@ -15,6 +15,7 @@ A small order calculator with an HTTP API, made to practise automated bug fixing
 
 `yarn start` runs it on port 3000 (`PORT` changes it).
 
+- `GET /` is the shop page: a form with the products, the country and a coupon. Calculate shows the receipt of that order under the form, or what is wrong with it.
 - `GET /health` answers `{"ok":true}`.
 - `POST /quote` with `{"items":[{"id":"mug","quantity":2}],"country":"DE","coupon":"SAVE10"}` answers the order and a text receipt. Product ids: mug, kettle, novel, atlas, gloves.
 

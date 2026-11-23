@@ -1,6 +1,7 @@
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from "node:http";
 import { addItem, CartError, type Cart } from "./cart.ts";
 import { computeOrder, OrderError } from "./order.ts";
+import { renderPage } from "./page.ts";
 import { renderReceipt } from "./receipt.ts";
 import { COUNTRIES, type Country } from "./shipping.ts";
 
@@ -19,6 +20,8 @@ export function createShopServer(): Server {
   return createServer((req, res) => {
     if (req.method === "GET" && req.url === "/health") return send(res, 200, { ok: true });
     if (req.method === "POST" && req.url === "/quote") return void quote(req, res);
+    const { pathname, query } = splitUrl(req.url);
+    if (req.method === "GET" && pathname === "/") return sendPage(res, renderPage(query));
     send(res, 404, { error: "not found" });
   });
 }
@@ -84,4 +87,16 @@ function parseItem(item: unknown): { id: string; quantity: number } {
 function send(res: ServerResponse, status: number, body: unknown): void {
   res.writeHead(status, { "content-type": "application/json" });
   res.end(JSON.stringify(body));
+}
+
+function sendPage(res: ServerResponse, page: { status: number; body: string }): void {
+  res.writeHead(page.status, { "content-type": "text/html; charset=utf-8" });
+  res.end(page.body);
+}
+
+/** A request's path and query, split by hand: new URL throws on an address like "//". */
+function splitUrl(url = "/"): { pathname: string; query: URLSearchParams } {
+  const question = url.indexOf("?");
+  if (question === -1) return { pathname: url, query: new URLSearchParams() };
+  return { pathname: url.slice(0, question), query: new URLSearchParams(url.slice(question + 1)) };
 }

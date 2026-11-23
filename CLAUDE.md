@@ -11,6 +11,7 @@ A small TypeScript project: an order calculator with an HTTP API. The business r
 - src/order.ts: the order totals
 - src/receipt.ts: the text receipt
 - src/server.ts, src/main.ts: the HTTP API
+- src/page.ts: the shop page (GET /), a form over the same order code
 
 ## Commands
 
